@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+//   use Spatie\Permission\Models\{Role, Permission};
+
 class RoleController extends Controller
 {
     public function index()
@@ -17,12 +19,18 @@ class RoleController extends Controller
         $permissions = Permission::orderBy('created_at','ASC')->get();
         return view('roles.create',compact('permissions'));
     }
-    public function edit($id)
-    {
-        $roles= Role::findById($id);
-        return view('roles.edit', compact('roles'));
 
-    }
+public function edit($id)
+{
+    $role = Role::findById($id); // use singular for clarity
+    $permissions = Permission::orderBy('created_at', 'ASC')->get();
+
+    // Get the IDs of permissions assigned to this role
+    $rolePermissions = $role->permissions->pluck('id')->toArray();
+
+    return view('roles.edit', compact('role', 'permissions', 'rolePermissions'));
+}
+
     public function show($id)
     {
         $roles= Role::findById($id);
@@ -30,8 +38,8 @@ class RoleController extends Controller
     }
     public function destroy($id)
     {
-        $roles = Role::findById($id);
-        $roles->delete();    
+        $role = Role::findById($id);
+        $role->delete();
         return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
         //
     }
@@ -63,7 +71,7 @@ class RoleController extends Controller
         }  
         return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
         //
-        
+
     }
     
 }
