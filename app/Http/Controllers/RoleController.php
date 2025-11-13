@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Routing\Controllers\HasMiddleware;
 //   use Spatie\Permission\Models\{Role, Permission};
 
 class RoleController extends Controller
@@ -20,16 +21,16 @@ class RoleController extends Controller
         return view('roles.create',compact('permissions'));
     }
 
-public function edit($id)
-{
-    $role = Role::findById($id); // use singular for clarity
-    $permissions = Permission::orderBy('created_at', 'ASC')->get();
+    public function edit($id)
+    {
+        $role = Role::findById($id); // use singular for clarity
+        $permissions = Permission::orderBy('created_at', 'ASC')->get();
 
-    // Get the IDs of permissions assigned to this role
-    $rolePermissions = $role->permissions->pluck('id')->toArray();
+        // Get the IDs of permissions assigned to this role
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
 
-    return view('roles.edit', compact('role', 'permissions', 'rolePermissions'));
-}
+        return view('roles.edit', compact('role', 'permissions', 'rolePermissions'));
+    }
 
     public function show($id)
     {

@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/roles/{id}', [RoleController::class, 'update'])->name('roles.update');
     Route::delete('/roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
     Route::get('/roles/{id}', [RoleController::class, 'show'])->name('roles.show');
+    Route::resource('articles', \App\Http\Controllers\ArticleController::class);
+    Route::resource('users', \App\Http\Controllers\UserController::class);
 
 
     

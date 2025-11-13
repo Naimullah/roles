@@ -18,6 +18,7 @@
                     @endif
 
                     <!-- Header Actions -->
+                     @can('create roles')
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">All Roles</h3>
                         <a href="{{ route('roles.create') }}"
@@ -25,6 +26,7 @@
                             + Create Role
                         </a>
                     </div>
+                    @endcan
 
                     <!-- Roles Table -->
                     <div class="overflow-x-auto">
